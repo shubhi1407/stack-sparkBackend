@@ -1,7 +1,3 @@
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
 import org.apache.spark.api.java.function.FilterFunction;
 import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.sql.Dataset;
@@ -13,12 +9,17 @@ import org.apache.spark.sql.SparkSession;
 public class Demographic {
 		
 	public static void main(String[] args) {
+		String sourceTable=args[0];
+		String targetTable=args[1];
+		
 		String url = "jdbc:mysql://35.224.68.135:3306/stackNetwork?user=admin&password=password";
+		//String url = "jdbc:mysql://localhost/stackNetwork?user=root&password=12345";
+
 		SparkSession sparkSession = SparkSession.builder().appName("stack-exchange-analysis")
 				.getOrCreate();
 
 		Dataset<Post> df = sparkSession.read().format("jdbc").option("url", url)
-				.option("driver", "com.mysql.jdbc.Driver").option("dbtable", "posts_questions").load()
+				.option("driver", "com.mysql.jdbc.Driver").option("dbtable", sourceTable).load()
 				.as(Encoders.bean(Post.class));
 
 		// Looks the schema of this DataFrame.
@@ -30,7 +31,7 @@ public class Demographic {
 		Dataset<Row> countDF = df.groupBy("Location").count();
 		
 		countDF.filter(countDF.col("count").gt(3)).coalesce(1).write().mode(SaveMode.Append).format("jdbc").option("url", url)
-		.option("driver", "com.mysql.jdbc.Driver").option("dbtable", "demographic").save();
+		.option("driver", "com.mysql.jdbc.Driver").option("dbtable",targetTable).save();
 		
 		//countDF.filter(countDF.col("count").gt(3)).coalesce(1).write().mode(SaveMode.Overwrite).csv("./count");
 		
