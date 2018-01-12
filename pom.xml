@@ -1,40 +1,84 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.stack.network</groupId>
-  <artifactId>spark-stacknetwork</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>stacknetwork</name>
-  <properties>
-  	<maven.compiler.source>1.8</maven.compiler.source>
-  	<maven.compiler.target>1.8</maven.compiler.target>
-  </properties>
-    <dependencies>
-   
-    <dependency>
-    <groupId>org.apache.spark</groupId>
-    <artifactId>spark-core_2.11</artifactId>
-    <version>2.1.0</version>
-</dependency>
-   <dependency>
-    <groupId>org.apache.spark</groupId>
-    <artifactId>spark-sql_2.11</artifactId>
-    <version>2.1.0</version>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.stack.network</groupId>
+	<artifactId>spark-stacknetwork</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>stacknetwork</name>
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+	<repositories>
+		<repository>
+			<id>oss-sonatype</id>
+			<name>oss-sonatype</name>
+			<url>https://oss.sonatype.org/content/repositories/releases/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<dependencies>
+	<dependency>
+  <groupId>com.google.cloud</groupId>
+  <artifactId>google-cloud-bigquery</artifactId>
+  <version>0.32.0-beta</version>
 </dependency>
 <dependency>
-    <groupId>org.scala-lang</groupId>
-    <artifactId>scala-library</artifactId>
-    <version>2.11.8</version>
-</dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>23.6-jre</version>
+</dependency> 
 <dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
-        <version>5.1.30</version>
-        <scope>compile</scope>
-    </dependency>
-</dependencies>
-<build>
-<plugins>
-<plugin>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpcore</artifactId>
+    <version>4.4.8</version>
+</dependency>
+		<!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
+	
+		<dependency>
+			<groupId>org.apache.spark</groupId>
+			<artifactId>spark-core_2.11</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.spark</groupId>
+			<artifactId>spark-sql_2.11</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.hbase/hbase -->
+
+		<!-- https://mvnrepository.com/artifact/spotify/spark-bigquery -->
+		<!-- https://mvnrepository.com/artifact/spotify/spark-bigquery -->
+		<!-- https://mvnrepository.com/artifact/com.github.samelamin/spark-bigquery -->
+		
+		
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-library</artifactId>
+			<version>2.11.8</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.30</version>
+			<scope>compile</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.cloud/google-cloud-bigquery -->
+<!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-bigquery -->
+<dependency>
+    <groupId>com.google.apis</groupId>
+    <artifactId>google-api-services-bigquery</artifactId>
+    <version>v2-rev368-1.23.0</version>
+</dependency>
+
+
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.4.1</version>
@@ -45,23 +89,23 @@
 					</descriptorRefs>
 					<!-- MainClass in mainfest make a executable jar -->
 					<archive>
-					  <manifest>
-						<mainClass>com.mkyong.core.utils.App</mainClass>
-					  </manifest>
+						<manifest>
+							<mainClass>com.mkyong.core.utils.App</mainClass>
+						</manifest>
 					</archive>
 
 				</configuration>
 				<executions>
-				  <execution>
-					<id>make-assembly</id>
-                                        <!-- bind to the packaging phase -->
-					<phase>package</phase>
-					<goals>
-						<goal>single</goal>
-					</goals>
-				  </execution>
+					<execution>
+						<id>make-assembly</id>
+						<!-- bind to the packaging phase -->
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
 				</executions>
 			</plugin>
-</plugins>
-</build>
+		</plugins>
+	</build>
 </project>
