@@ -8,11 +8,12 @@ import com.google.cloud.bigquery.QueryJobConfiguration;
 import com.google.cloud.bigquery.QueryResponse;
 import com.google.cloud.bigquery.QueryResult;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class BigQueryProvider {
-  public static void fetchRecords(String Query) throws Exception {
+  public static ArrayList<TagsObj> fetchRecords(String Query) throws Exception {
     BigQuery bigquery = BigQueryOptions.getDefaultInstance().getService();
     QueryJobConfiguration queryConfig =
         QueryJobConfiguration.newBuilder(Query)
@@ -41,19 +42,19 @@ public class BigQueryProvider {
     QueryResponse response = bigquery.getQueryResults(jobId);
 
     QueryResult result = response.getResult();
-
+     ArrayList<TagsObj> tags = new ArrayList<>();
     // Print all pages of the results.
-    while (result != null) {
+    while (result != null ) {
       for (List<FieldValue> row : result.iterateAll()) {
-       // String id =  row.get(0).getStringValue();
-        String[] tags = row.get(0).getStringValue().split("|");
-        
-
-//        long uniqueWords = row.get(1).getLongValue();
-        System.out.printf("Tags: %s\n",tags);
-      }
-
-      result = result.getNextPage();
+    	 String[] eachTag = row.get(0).getStringValue().split("\\|");  
+        for(int i=0;i<eachTag.length;i++) {
+        	tags.add(new TagsObj(eachTag[i]));
+        }  
+        }
+      result=result.getNextPage();
     }
+   
+    return tags;
   }
 }
+        
