@@ -105,14 +105,18 @@
 						<configuration>
 							<artifactSet>
 								
-								<includes>
-									<include>org.json</include>
-									<include>com.google.guava:*</include>
-									<include>com.google.cloud:*</include>
-									<include>mysql</include>
-<!-- 									<include>org.apache.spark</include> -->
-<!-- 									<include>org.scala-lang</include> -->
-								</includes>
+<!-- 								<includes> -->
+<!-- 									<include>org.json</include> -->
+<!-- 									<include>com.google.guava:*</include> -->
+<!-- 									<include>com.google.cloud:*</include> -->
+<!-- 									<include>mysql</include> -->
+
+<!-- 								</includes> -->
+								
+								<excludes>
+									<exclude>org.apache.*</exclude>
+									<exclude>org.scala-lang.*</exclude>
+								</excludes>
 							</artifactSet>
 							<minimizeJar>false</minimizeJar>
 							<relocations>
