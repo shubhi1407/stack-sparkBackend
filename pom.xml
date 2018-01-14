@@ -105,20 +105,20 @@
 						<configuration>
 							<artifactSet>
 								
-<!-- 								<includes> -->
-<!-- 									<include>org.json</include> -->
-<!-- 									<include>com.google.guava:*</include> -->
+								<includes>
+									<include>org.json</include>
+									<include>com.google.*</include>
 <!-- 									<include>com.google.cloud:*</include> -->
-<!-- 									<include>mysql</include> -->
+									<include>mysql</include>
 
-<!-- 								</includes> -->
+								</includes>
 								
-								<excludes>
-									<exclude>org.apache.*</exclude>
-									<exclude>org.scala-lang.*</exclude>
-									<exclude>io.netty.*</exclude>
-									<exclude>org.glassfish.*</exclude>
-								</excludes>
+<!-- 								<excludes> -->
+<!-- 									<exclude>org.apache.*</exclude> -->
+<!-- 									<exclude>org.scala-lang.*</exclude> -->
+<!-- 									<exclude>io.netty.*</exclude> -->
+<!-- 									<exclude>org.glassfish.*</exclude> -->
+<!-- 								</excludes> -->
 							</artifactSet>
 							<minimizeJar>false</minimizeJar>
 							<relocations>
