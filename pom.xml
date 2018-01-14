@@ -134,10 +134,10 @@
 									<pattern>com.google.common</pattern>
 									<shadedPattern>repackaged.com.google.common</shadedPattern>
 								</relocation>
-								<relocation>
-									<pattern>com.google.api</pattern>
-									<shadedPattern>repackaged.com.google.api</shadedPattern>
-								</relocation>
+<!-- 								<relocation> -->
+<!-- 									<pattern>com.google.api</pattern> -->
+<!-- 									<shadedPattern>repackaged.com.google.api</shadedPattern> -->
+<!-- 								</relocation> -->
 							</relocations>
 							<shadedArtifactAttached>true</shadedArtifactAttached>
 						</configuration>
