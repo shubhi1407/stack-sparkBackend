@@ -38,22 +38,22 @@ public class Application {
         }else {
 
         	String QueryQ1 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-12-01' and creation_date <'2017-12-31'";
-        	String QueryQ2 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-11-01' and creation_date <'2017-11-30'";
-        	String QueryQ3 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-10-01' and creation_date <'2017-10-31'";
+        	//String QueryQ2 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-11-01' and creation_date <'2017-11-30'";
+        	//String QueryQ3 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-10-01' and creation_date <'2017-10-31'";
         	
         	try {
 			LinkedList<TagsObj> tagsDataQ1=	BigQueryProvider.fetchRecords(QueryQ1);
-			LinkedList<TagsObj> tagsDataQ2=	BigQueryProvider.fetchRecords(QueryQ2);
-			LinkedList<TagsObj> tagsDataQ3=	BigQueryProvider.fetchRecords(QueryQ3);
+			//LinkedList<TagsObj> tagsDataQ2=	BigQueryProvider.fetchRecords(QueryQ2);
+			//LinkedList<TagsObj> tagsDataQ3=	BigQueryProvider.fetchRecords(QueryQ3);
 			
 			
 			Dataset<TagsObj> dataset1 = sparkSession.createDataset(tagsDataQ1, Encoders.bean(TagsObj.class));
-			Dataset<TagsObj> dataset2 = sparkSession.createDataset(tagsDataQ2, Encoders.bean(TagsObj.class));
-			Dataset<TagsObj> dataset3 = sparkSession.createDataset(tagsDataQ3, Encoders.bean(TagsObj.class));
+			//Dataset<TagsObj> dataset2 = sparkSession.createDataset(tagsDataQ2, Encoders.bean(TagsObj.class));
+			//Dataset<TagsObj> dataset3 = sparkSession.createDataset(tagsDataQ3, Encoders.bean(TagsObj.class));
 			
-			Dataset<TagsObj> unionAll=dataset1.union(dataset2).union(dataset3);
+			//Dataset<TagsObj> unionAll=dataset1.union(dataset2).union(dataset3);
 			
-			Dataset<Row> countD1 = unionAll.groupBy("tagName").count().orderBy(org.apache.spark.sql.functions.col("count").desc()).limit(20);
+			Dataset<Row> countD1 = dataset1.groupBy("tagName").count().orderBy(org.apache.spark.sql.functions.col("count").desc()).limit(20);
 			
 			Dataset<Row> finalData = countD1.withColumn("quarter", lit("2017-q1"));
 			//countD1.coalesce(1).write().mode(SaveMode.Overwrite).csv("./final");
