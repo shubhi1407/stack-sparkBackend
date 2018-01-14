@@ -89,6 +89,13 @@
     <artifactId>json</artifactId>
     <version>20171018</version>
 </dependency>
+<!-- https://mvnrepository.com/artifact/com.google.http-client/google-http-client -->
+<dependency>
+    <groupId>com.google.http-client</groupId>
+    <artifactId>google-http-client</artifactId>
+    <version>1.23.0</version>
+</dependency>
+
 		
 		<!-- https://mvnrepository.com/artifact/com.google.cloud/google-cloud-bigquery -->
 		<!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-bigquery -->
