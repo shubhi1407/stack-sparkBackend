@@ -108,6 +108,7 @@
 								<includes>
 									<include>org.json</include>
 									<include>com.google.*</include>
+									<include>org.threeten:*</include>
 <!-- 									<include>com.google.cloud:*</include> -->
 									<include>mysql</include>
 
