@@ -116,6 +116,8 @@
 								<excludes>
 									<exclude>org.apache.*</exclude>
 									<exclude>org.scala-lang.*</exclude>
+									<exclude>io.netty.*</exclude>
+									<exclude>org.glassfish.*</exclude>
 								</excludes>
 							</artifactSet>
 							<minimizeJar>false</minimizeJar>
