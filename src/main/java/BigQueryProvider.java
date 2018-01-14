@@ -9,11 +9,12 @@ import com.google.cloud.bigquery.QueryResponse;
 import com.google.cloud.bigquery.QueryResult;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
 public class BigQueryProvider {
-  public static ArrayList<TagsObj> fetchRecords(String Query) throws Exception {
+  public static LinkedList<TagsObj> fetchRecords(String Query) throws Exception {
     BigQuery bigquery = BigQueryOptions.getDefaultInstance().getService();
     QueryJobConfiguration queryConfig =
         QueryJobConfiguration.newBuilder(Query)
@@ -42,7 +43,7 @@ public class BigQueryProvider {
     QueryResponse response = bigquery.getQueryResults(jobId);
 
     QueryResult result = response.getResult();
-     ArrayList<TagsObj> tags = new ArrayList<>();
+     LinkedList<TagsObj> tags = new LinkedList<>();
     // Print all pages of the results.
     while (result != null ) {
       for (List<FieldValue> row : result.iterateAll()) {
