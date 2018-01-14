@@ -21,28 +21,37 @@
 	</repositories>
 
 	<dependencies>
-	<dependency>
-  <groupId>com.google.cloud</groupId>
-  <artifactId>google-cloud-bigquery</artifactId>
-  <version>0.32.0-beta</version>
-</dependency>
-<!-- <dependency> -->
-<!--     <groupId>com.google.guava</groupId> -->
-<!--     <artifactId>guava</artifactId> -->
-<!--     <version>23.2-jre</version> -->
-<!-- </dependency>  -->
-<dependency>
-    <groupId>org.apache.httpcomponents</groupId>
-    <artifactId>httpcore</artifactId>
-    <version>4.4.8</version>
-</dependency>
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-bigquery</artifactId>
+			<version>0.32.0-beta</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>23.6-jre</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
-	
+
 		<dependency>
 			<groupId>org.apache.spark</groupId>
 			<artifactId>spark-core_2.11</artifactId>
 			<version>2.1.0</version>
+			<exclusions>
+						<exclusion>
+			<artifactId>guava</artifactId>
+			<groupId>com.google.guava</groupId>
+			</exclusion>
+			</exclusions>
+			
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.auth/google-auth-library-oauth2-http -->
+<dependency>
+    <groupId>com.google.auth</groupId>
+    <artifactId>google-auth-library-oauth2-http</artifactId>
+    <version>0.9.0</version>
+</dependency>
+		
 		<dependency>
 			<groupId>org.apache.spark</groupId>
 			<artifactId>spark-sql_2.11</artifactId>
@@ -53,27 +62,70 @@
 		<!-- https://mvnrepository.com/artifact/spotify/spark-bigquery -->
 		<!-- https://mvnrepository.com/artifact/spotify/spark-bigquery -->
 		<!-- https://mvnrepository.com/artifact/com.github.samelamin/spark-bigquery -->
-		
-		
+
+
 		<dependency>
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scala-library</artifactId>
 			<version>2.11.8</version>
 		</dependency>
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.30</version>
 			<scope>compile</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.json/json -->
+<dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20171018</version>
+</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/com.google.cloud/google-cloud-bigquery -->
-<!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-bigquery -->
+		<!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-bigquery -->
 
 
 
 	</dependencies>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<artifactSet>
+								
+								<includes>
+									<include>org.json</include>
+									<include>com.google.guava:*</include>
+									<include>com.google.cloud:*</include>
+									<include>com.google.auth:*</include>
+									<include>mysql</include>
+<!-- 									<include>org.apache.spark</include> -->
+<!-- 									<include>org.scala-lang</include> -->
+								</includes>
+							</artifactSet>
+							<minimizeJar>false</minimizeJar>
+							<relocations>
+								<relocation>
+									<pattern>com.google.common</pattern>
+									<shadedPattern>repackaged.com.google.common</shadedPattern>
+								</relocation>
+							</relocations>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -95,7 +147,7 @@
 					<execution>
 						<id>make-assembly</id>
 						<!-- bind to the packaging phase -->
-						<phase>package</phase>
+						<phase>none</phase>
 						<goals>
 							<goal>single</goal>
 						</goals>
