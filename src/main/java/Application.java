@@ -37,9 +37,9 @@ public class Application {
         	
         }else {
 
-        	String QueryQ1 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-06-01' and creation_date <'2017-06-30'";
-        	String QueryQ2 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-05-01' and creation_date <'2017-05-31'";
-        	String QueryQ3 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-04-01' and creation_date <'2017-04-30'";
+        	String QueryQ1 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-03-01' and creation_date <'2017-03-31'";
+        	String QueryQ2 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-02-01' and creation_date <'2017-02-28'";
+        	String QueryQ3 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-01-01' and creation_date <'2017-01-31'";
         	
         	try {
 			LinkedList<TagsObj> tagsDataQ1=	BigQueryProvider.fetchRecords(QueryQ1);
@@ -56,7 +56,7 @@ public class Application {
 			Dataset<Row> countD1 = unionAll
 					.groupBy("tagName").count().orderBy(org.apache.spark.sql.functions.col("count").desc()).limit(20);
 			
-			Dataset<Row> finalData = countD1.withColumn("quarter", lit("2017-q3"));
+			Dataset<Row> finalData = countD1.withColumn("quarter", lit("2017-q4"));
 			//countD1.coalesce(1).write().mode(SaveMode.Overwrite).csv("./final");
 			String url = "jdbc:mysql://35.224.68.135:3306/stackNetwork?user=admin&password=password";
 			//String url = "jdbc:mysql://localhost:3306/stackNetwork?user=root&password=12345";
