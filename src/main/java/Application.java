@@ -37,9 +37,9 @@ public class Application {
         	
         }else {
 
-        	String QueryQ1 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-12-01' and creation_date <'2017-12-31'";
-        	String QueryQ2 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-11-01' and creation_date <'2017-11-30'";
-        	String QueryQ3 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-10-01' and creation_date <'2017-10-31'";
+        	String QueryQ1 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-09-01' and creation_date <'2017-09-30'";
+        	String QueryQ2 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-08-01' and creation_date <'2017-08-31'";
+        	String QueryQ3 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-07-01' and creation_date <'2017-07-31'";
         	
         	try {
 			LinkedList<TagsObj> tagsDataQ1=	BigQueryProvider.fetchRecords(QueryQ1);
