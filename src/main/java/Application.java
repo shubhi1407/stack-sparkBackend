@@ -56,7 +56,7 @@ public class Application {
 			Dataset<Row> countD1 = unionAll
 					.groupBy("tagName").count().orderBy(org.apache.spark.sql.functions.col("count").desc()).limit(20);
 			
-			Dataset<Row> finalData = countD1.withColumn("quarter", lit("2017-q1"));
+			Dataset<Row> finalData = countD1.withColumn("quarter", lit("2017-q2"));
 			//countD1.coalesce(1).write().mode(SaveMode.Overwrite).csv("./final");
 			String url = "jdbc:mysql://35.224.68.135:3306/stackNetwork?user=admin&password=password";
 			//String url = "jdbc:mysql://localhost:3306/stackNetwork?user=root&password=12345";
