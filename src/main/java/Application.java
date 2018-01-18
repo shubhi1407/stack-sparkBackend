@@ -1,8 +1,10 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.spark.api.java.function.FilterFunction;
+import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Encoders;
@@ -15,7 +17,7 @@ import static org.apache.spark.sql.functions.*;
 
 
 public class Application {
-		
+	
 	public static void main(String[] args) {
 		String sourceTable = null;
 		String targetTable = null;
@@ -25,7 +27,7 @@ public class Application {
 		 targetTable=args[1];
 		 classToRun=args[2];
 		}
-		SparkSession sparkSession = SparkSession.builder().appName("stack-exchange-analysis")
+		SparkSession sparkSession = SparkSession.builder().master("local").appName("stack-exchange-analysis")
 				                    .getOrCreate();
 		
         if(classToRun!=null && classToRun.equals("ProcessQueAndAns")) {
@@ -37,7 +39,7 @@ public class Application {
         	
         }else {
 
-        	String QueryQ1 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-03-01' and creation_date <'2017-03-31'";
+        	String QueryQ1 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date >='2017-01-01' and creation_date <='2017-01-31'";
         	String QueryQ2 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-02-01' and creation_date <'2017-02-28'";
         	String QueryQ3 = "SELECT tags FROM `bigquery-public-data.stackoverflow.posts_questions` where tags!='' and tags is not null and creation_date > '2017-01-01' and creation_date <'2017-01-31'";
         	
@@ -52,18 +54,25 @@ public class Application {
 			Dataset<TagsObj> dataset3 = sparkSession.createDataset(tagsDataQ3, Encoders.bean(TagsObj.class));
 			
 			Dataset<TagsObj> unionAll=dataset1.union(dataset2).union(dataset3);
-			
-			Dataset<Row> countD1 = unionAll
-					.groupBy("tagName").count().orderBy(org.apache.spark.sql.functions.col("count").desc()).limit(20);
-			
-			Dataset<Row> finalData = countD1.withColumn("quarter", lit("2017-q4"));
+			Dataset<Row> count = 
+					unionAll
+					.flatMap(TagsObj.mapToTags,Encoders.bean(TagsObj.class))
+					.filter(tag -> tag.getTagName()!=null)
+					.groupBy(unionAll.col("tagName"))
+					.count().orderBy(org.apache.spark.sql.functions.col("count").desc())
+					.limit(20);
+
+		//	Dataset<Row> countD1 = dataset1
+//					.groupBy("tagName").count().orderBy(org.apache.spark.sql.functions.col("count").desc()).limit(20);
+//			
+			Dataset<Row> finalData = count.withColumn("quarter", lit("2017-q4"));
 			//countD1.coalesce(1).write().mode(SaveMode.Overwrite).csv("./final");
 			String url = "jdbc:mysql://35.224.68.135:3306/stackNetwork?user=admin&password=password";
 			//String url = "jdbc:mysql://localhost:3306/stackNetwork?user=root&password=12345";
 //			
 			finalData.coalesce(1).write().mode(SaveMode.Append).format("jdbc").option("url", url)
 				.option("driver", "com.mysql.jdbc.Driver").option("dbtable","tags_analysis").save();
-			
+//			
 	
 			
 			

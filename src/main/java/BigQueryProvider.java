@@ -46,11 +46,9 @@ public class BigQueryProvider {
      LinkedList<TagsObj> tags = new LinkedList<>();
     // Print all pages of the results.
     while (result != null ) {
+
       for (List<FieldValue> row : result.iterateAll()) {
-    	 String[] eachTag = row.get(0).getStringValue().split("\\|");  
-        for(int i=0;i<eachTag.length;i++) {
-        	tags.add(new TagsObj(eachTag[i]));
-        }  
+    	  tags.add(new TagsObj(row.get(0).getStringValue()));
         }
       result=result.getNextPage();
     }
